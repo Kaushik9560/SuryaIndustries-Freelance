@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAF8F5;
+  --foreground: #1F1F1F;
+  --secondary: #6B6B6B;
+  --border-color: #E9E4DD;
+  --accent: #C89A4A;
+  --accent-light: #D4B07A;
+  --card-bg: #FFFFFF;
+  --card-bg-warm: #F7F3ED;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-secondary: var(--secondary);
+  --color-brand-border: var(--border-color);
+  --color-brand-accent: var(--accent);
+  --color-brand-accent-light: var(--accent-light);
+  --color-brand-card: var(--card-bg);
+  --color-brand-bg-warm: var(--card-bg-warm);
+  --color-brand-dark-bg: #111111;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-custom-sm: 8px;
+  --radius-custom-md: 12px;
+  --radius-custom-lg: 16px;
+  --radius-custom-xl: 24px;
+  --radius-pill: 9999px;
+  
+  --shadow-soft-sm: 0 2px 8px rgba(0, 0, 0, 0.02);
+  --shadow-soft-md: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-soft-lg: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
