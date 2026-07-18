@@ -35,6 +35,11 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const modalTransition = {
+    duration: 0.3,
+    ease: "easeOut",
+  } as const;
+
   const categoriesOptions = [
     "Office Chairs",
     "Waiting Chairs",
@@ -225,7 +230,7 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={modalTransition}
             className="relative w-full max-w-2xl bg-white border border-brand-border rounded-custom-xl shadow-soft-lg overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}

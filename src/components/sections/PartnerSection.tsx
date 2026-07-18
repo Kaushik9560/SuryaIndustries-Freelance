@@ -3,7 +3,7 @@
 import React from "react";
 import { Sliders, CheckCircle2, Truck, ShieldCheck, HeartHandshake, MapPin } from "lucide-react";
 import { Card } from "../ui/Card";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 export const PartnerSection: React.FC = () => {
   const partners = [
@@ -47,12 +47,12 @@ export const PartnerSection: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
-  };
+  } satisfies Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
+  } satisfies Variants;
 
   return (
     <section className="py-20 md:py-28 bg-[#F7F3ED]/30 border-y border-brand-border">

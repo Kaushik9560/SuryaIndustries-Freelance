@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 export const ProcurementProcess: React.FC = () => {
   const steps = [
@@ -45,12 +45,12 @@ export const ProcurementProcess: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
-  };
+  } satisfies Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
+  } satisfies Variants;
 
   return (
     <section id="process" className="py-20 md:py-28 bg-[#111111] text-white overflow-hidden">

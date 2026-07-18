@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Shield, Truck, Settings, ArrowRight, Clock } from "lucide-react";
 import { Button } from "../ui/Button";
 
@@ -19,12 +19,18 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
         staggerChildren: 0.15,
       },
     },
-  };
+  } satisfies Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  };
+  } satisfies Variants;
+
+  const heroImageTransition = {
+    duration: 0.8,
+    delay: 0.2,
+    ease: "easeOut",
+  } as const;
 
   return (
     <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-background">
@@ -107,7 +113,7 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={heroImageTransition}
             className="lg:col-span-5 relative"
           >
             {/* Image Wrap */}

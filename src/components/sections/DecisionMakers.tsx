@@ -3,7 +3,7 @@
 import React from "react";
 import { GraduationCap, Building2, Hospital, Landmark, Award } from "lucide-react";
 import { Card } from "../ui/Card";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 export const DecisionMakers: React.FC = () => {
   const categories = [
@@ -42,12 +42,12 @@ export const DecisionMakers: React.FC = () => {
         staggerChildren: 0.1,
       },
     },
-  };
+  } satisfies Variants;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
+  } satisfies Variants;
 
   return (
     <section id="about" className="py-20 md:py-28 bg-[#F7F3ED]/40 border-y border-brand-border">
