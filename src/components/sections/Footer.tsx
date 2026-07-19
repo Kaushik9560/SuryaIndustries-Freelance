@@ -1,4 +1,6 @@
 import { Mail, MessageSquare, Clock, MapPin } from "lucide-react";
+import Link from "next/link";
+import { SITE_CONFIG } from "@/config/site";
 
 const LinkedinIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg
@@ -37,6 +39,10 @@ const FacebookIcon = ({ size = 16, className = "" }: { size?: number; className?
 );
 
 export const Footer: React.FC = () => {
+  const whatsappUrl = SITE_CONFIG.whatsappNumber
+    ? `https://wa.me/${SITE_CONFIG.whatsappNumber}`
+    : null;
+
   return (
     <footer id="contact" className="bg-[#111111] text-white border-t border-neutral-800 font-sans">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
@@ -48,7 +54,7 @@ export const Footer: React.FC = () => {
                 S
               </div>
               <span className="font-display font-semibold text-lg tracking-wide text-white">
-                Surya Industry
+                Surya Industries
               </span>
             </div>
             <p className="text-sm text-neutral-400 leading-relaxed max-w-sm">
@@ -65,17 +71,24 @@ export const Footer: React.FC = () => {
               Contact
             </h4>
             <div className="flex flex-col gap-3 text-sm text-neutral-300">
-              <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
-                <MessageSquare size={16} className="text-brand-accent" />
-                <span>WhatsApp: +91 98765 43210</span>
-              </a>
-              <a href="mailto:quote@suryaindustry.in" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Mail size={16} className="text-brand-accent" />
-                <span>Email: quote@suryaindustry.in</span>
-              </a>
+              {whatsappUrl && SITE_CONFIG.contactPhone && (
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
+                  <MessageSquare size={16} className="text-brand-accent" />
+                  <span>WhatsApp: {SITE_CONFIG.contactPhone}</span>
+                </a>
+              )}
+              {SITE_CONFIG.contactEmail && (
+                <a href={`mailto:${SITE_CONFIG.contactEmail}`} className="flex items-center gap-2 hover:text-white transition-colors">
+                  <Mail size={16} className="text-brand-accent" />
+                  <span>Email: {SITE_CONFIG.contactEmail}</span>
+                </a>
+              )}
+              {!whatsappUrl && !SITE_CONFIG.contactEmail && (
+                <p className="text-neutral-400">Use the Request a Quote form for enquiries.</p>
+              )}
               <div className="flex items-start gap-2">
                 <MapPin size={16} className="text-brand-accent mt-0.5 shrink-0" />
-                <span>Factory: Peenya Industrial Area, Bengaluru, Karnataka 560058</span>
+                <span>Factory: {SITE_CONFIG.factoryAddress}</span>
               </div>
             </div>
           </div>
@@ -99,30 +112,40 @@ export const Footer: React.FC = () => {
               <Clock size={16} className="text-brand-accent" />
               <span>Monday–Saturday, 9:30 AM–6:30 PM</span>
             </div>
-            <div className="flex gap-4 mt-4">
-              <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="WhatsApp">
-                <MessageSquare size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="LinkedIn">
-                <LinkedinIcon size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="Facebook">
-                <FacebookIcon size={16} />
-              </a>
-              <a href="mailto:quote@suryaindustry.in" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="Email">
-                <Mail size={16} />
-              </a>
-            </div>
+            {(whatsappUrl || SITE_CONFIG.linkedinUrl || SITE_CONFIG.facebookUrl || SITE_CONFIG.contactEmail) && (
+              <div className="flex gap-4 mt-4">
+                {whatsappUrl && (
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="WhatsApp">
+                    <MessageSquare size={16} />
+                  </a>
+                )}
+                {SITE_CONFIG.linkedinUrl && (
+                  <a href={SITE_CONFIG.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="LinkedIn">
+                    <LinkedinIcon size={16} />
+                  </a>
+                )}
+                {SITE_CONFIG.facebookUrl && (
+                  <a href={SITE_CONFIG.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="Facebook">
+                    <FacebookIcon size={16} />
+                  </a>
+                )}
+                {SITE_CONFIG.contactEmail && (
+                  <a href={`mailto:${SITE_CONFIG.contactEmail}`} className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:border-brand-accent transition-colors" aria-label="Email">
+                    <Mail size={16} />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Copyright */}
         <div className="mt-16 pt-8 border-t border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2026 Surya Industry. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Surya Industries. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-neutral-300">Privacy Policy</a>
-            <a href="#" className="hover:text-neutral-300">Terms of Service</a>
-            <a href="#" className="hover:text-neutral-300">Sitemap</a>
+            <Link href="/privacy" className="hover:text-neutral-300">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-neutral-300">Terms of Service</Link>
+            <a href="/sitemap.xml" className="hover:text-neutral-300">Sitemap</a>
           </div>
         </div>
       </div>

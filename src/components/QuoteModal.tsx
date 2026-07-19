@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft, ArrowRight, Check, Download, Send } from "lucide-react";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
 import { Select } from "./ui/Select";
 import { Textarea } from "./ui/Textarea";
+import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { SITE_CONFIG } from "@/config/site";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -34,6 +36,14 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [referenceCode, setReferenceCode] = useState("");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const websiteRef = useRef<HTMLInputElement>(null);
+  const idempotencyKeyRef = useRef<string | null>(null);
+
+  useModalAccessibility({ isOpen, onClose, containerRef: dialogRef });
 
   const modalTransition = {
     duration: 0.3,
@@ -48,6 +58,11 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
     "Storage Cabinets",
     "Office Tables",
   ];
+
+  const selectableCategoryOptions =
+    preselectedCategory && !categoriesOptions.includes(preselectedCategory)
+      ? [preselectedCategory, ...categoriesOptions]
+      : categoriesOptions;
 
   const industryOptions = [
     { value: "", label: "Select Institution Type" },
@@ -101,6 +116,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setSubmitError("");
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -159,17 +175,49 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
     setStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    if (validateStep3()) {
-      setStep(4); // Success screen
+    if (!validateStep3() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError("");
+    idempotencyKeyRef.current ??= crypto.randomUUID();
+
+    try {
+      const response = await fetch("/api/quotes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          sourcePath: window.location.pathname,
+          idempotencyKey: idempotencyKeyRef.current,
+          website: websiteRef.current?.value ?? "",
+        }),
+      });
+      const result = (await response.json()) as {
+        ok: boolean;
+        referenceCode?: string;
+        error?: string;
+      };
+
+      if (!response.ok || !result.ok || !result.referenceCode) {
+        setSubmitError(result.error || "The request could not be submitted. Please retry.");
+        return;
+      }
+
+      setReferenceCode(result.referenceCode);
+      setStep(4);
+    } catch {
+      setSubmitError("We could not reach the server. Check your connection and retry.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const downloadSummaryFile = () => {
-    const content = `SURYA INDUSTRY - INSTITUTIONAL PROCUREMENT QUOTE REQUEST
+    const content = `SURYA INDUSTRIES - INSTITUTIONAL PROCUREMENT QUOTE REQUEST
 ============================================================
-Reference ID: SIQ-${Math.floor(100000 + Math.random() * 90000) - 2026}
+Reference ID: ${referenceCode}
 Date: ${new Date().toLocaleDateString()}
 Status: Request Received & In Review
 
@@ -193,13 +241,13 @@ SPECIFIC REQUIRMENTS / INSTRUCTIONS:
 ${formData.details || "No additional requirements specified."}
 
 ============================================================
-Thank you for reaching out to Surya Industry. A procurement
+Thank you for reaching out to Surya Industries. A procurement
 specialist will review your space layouts and requirements,
 compile a formal commercial proposal, and contact you within
 1 business day.
 
-Contact: info@suryaindustry.in | +91 98765 43210
-Factory: Peenya Industrial Area, Bengaluru, Karnataka
+Contact: ${SITE_CONFIG.contactEmail || SITE_CONFIG.contactPhone || "Submitted through the Surya Industries website"}
+Factory: ${SITE_CONFIG.factoryAddress}
 `;
 
     const blob = new Blob([content], { type: "text/plain" });
@@ -210,6 +258,7 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -222,11 +271,17 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            aria-hidden="true"
             className="absolute inset-0 bg-neutral-900/40 backdrop-blur-sm"
           />
 
           {/* Modal Card */}
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="quote-modal-title"
+            tabIndex={-1}
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -239,12 +294,14 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
                 <span className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest">
                   Procurement Form
                 </span>
-                <h3 className="font-display font-semibold text-lg text-brand-dark-bg mt-0.5">
+                <h3 id="quote-modal-title" className="font-display font-semibold text-lg text-brand-dark-bg mt-0.5">
                   Request institutional quotation
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={onClose}
+                aria-label="Close quotation form"
                 className="p-1.5 rounded-full hover:bg-neutral-100 text-brand-secondary hover:text-brand-dark-bg transition-colors cursor-pointer"
               >
                 <X size={18} />
@@ -271,13 +328,14 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
                       Select Required Furniture Categories (Select all that apply)
                     </label>
                     <div className="grid grid-cols-2 gap-3">
-                      {categoriesOptions.map((cat) => {
+                      {selectableCategoryOptions.map((cat) => {
                         const isSelected = formData.categories.includes(cat);
                         return (
                           <button
                             key={cat}
                             type="button"
                             onClick={() => handleCategoryToggle(cat)}
+                            aria-pressed={isSelected}
                             className={`flex items-center gap-3 p-4 rounded-custom-md border text-left text-sm font-medium transition-all duration-200 cursor-pointer ${
                               isSelected
                                 ? "bg-brand-bg-warm/60 border-brand-accent text-brand-dark-bg shadow-soft-sm"
@@ -338,6 +396,17 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
 
               {step === 3 && (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <div className="absolute -left-[10000px]" aria-hidden="true">
+                    <label htmlFor="quote-website">Website</label>
+                    <input
+                      ref={websiteRef}
+                      id="quote-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
                       name="name"
@@ -394,6 +463,12 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
                     value={formData.details}
                     onChange={handleInputChange}
                   />
+
+                  {submitError && (
+                    <p role="alert" className="text-xs font-medium text-red-600">
+                      {submitError}
+                    </p>
+                  )}
                 </form>
               )}
 
@@ -404,6 +479,9 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
                   </div>
                   <span className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest">
                     Submission Received
+                  </span>
+                  <span className="mt-2 rounded-full bg-brand-bg-warm px-3 py-1 text-[10px] font-semibold tracking-wider text-brand-accent">
+                    {referenceCode}
                   </span>
                   <h4 className="font-display font-bold text-2xl text-brand-dark-bg mt-1 mb-3">
                     Thank you, {formData.name}
@@ -458,10 +536,11 @@ Factory: Peenya Industrial Area, Bengaluru, Karnataka
                     variant="accent"
                     size="sm"
                     onClick={handleSubmit}
+                    disabled={isSubmitting}
                     className="flex items-center gap-2"
                   >
                     <Send size={14} />
-                    Submit Request
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
                   </Button>
                 )}
               </div>

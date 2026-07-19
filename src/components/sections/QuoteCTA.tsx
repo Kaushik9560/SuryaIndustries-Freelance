@@ -4,12 +4,17 @@ import React from "react";
 import { MessageSquare, ArrowRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { motion } from "framer-motion";
+import { SITE_CONFIG } from "@/config/site";
 
 interface QuoteCTAProps {
   onRequestQuote: () => void;
 }
 
 export const QuoteCTA: React.FC<QuoteCTAProps> = ({ onRequestQuote }) => {
+  const whatsappUrl = SITE_CONFIG.whatsappNumber
+    ? `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=Hello%20Surya%20Industries,%20I%20would%20like%20to%20discuss%20our%20institutional%20furniture%20requirements.`
+    : null;
+
   return (
     <section className="py-20 md:py-28 bg-[#FAF8F5]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -31,7 +36,7 @@ export const QuoteCTA: React.FC<QuoteCTAProps> = ({ onRequestQuote }) => {
               Discuss your institutional furniture requirements
             </h2>
             <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light">
-              Share your space layout, estimated quantities, budget goals, and installation timeline. Surya Industry will help recommend and quote suitable seating and storage solutions for your organization.
+              Share your space layout, estimated quantities, budget goals, and installation timeline. Surya Industries will help recommend and quote suitable seating and storage solutions for your organization.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-center mt-6 w-full sm:w-auto">
@@ -45,15 +50,17 @@ export const QuoteCTA: React.FC<QuoteCTAProps> = ({ onRequestQuote }) => {
                 <ArrowRight size={16} />
               </Button>
               
-              <a
-                href="https://wa.me/919876543210?text=Hello%20Surya%20Industry,%20I%20would%20like%20to%20discuss%20our%20institutional%20furniture%20requirements."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center font-medium font-sans rounded-pill transition-all duration-300 cursor-pointer outline-none focus:ring-2 focus:ring-brand-accent/50 focus:ring-offset-2 bg-transparent text-white border border-neutral-700 hover:border-neutral-400 hover:bg-neutral-900/60 px-7 py-3 text-sm shadow-soft-sm gap-2"
-              >
-                <MessageSquare size={16} className="text-green-500 fill-green-500/10" />
-                <span>WhatsApp Us</span>
-              </a>
+              {whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center font-medium font-sans rounded-pill transition-all duration-300 cursor-pointer outline-none focus:ring-2 focus:ring-brand-accent/50 focus:ring-offset-2 bg-transparent text-white border border-neutral-700 hover:border-neutral-400 hover:bg-neutral-900/60 px-7 py-3 text-sm shadow-soft-sm gap-2"
+                >
+                  <MessageSquare size={16} className="text-green-500 fill-green-500/10" />
+                  <span>WhatsApp Us</span>
+                </a>
+              )}
             </div>
           </div>
         </motion.div>

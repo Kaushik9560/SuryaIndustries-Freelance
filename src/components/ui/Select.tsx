@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 
 interface Option {
   value: string;
@@ -12,17 +12,23 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, options, error, className = "", ...props }, ref) => {
+  ({ label, options, error, className = "", id, ...props }, ref) => {
+    const generatedId = useId();
+    const selectId = id ?? generatedId;
+
     return (
       <div className="w-full flex flex-col gap-1.5 font-sans">
         {label && (
-          <label className="text-[10px] font-semibold text-brand-secondary uppercase tracking-widest">
+          <label htmlFor={selectId} className="text-[10px] font-semibold text-brand-secondary uppercase tracking-widest">
             {label}
           </label>
         )}
         <div className="relative">
           <select
+            id={selectId}
             ref={ref}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? `${selectId}-error` : undefined}
             className={`w-full bg-white border border-brand-border rounded-custom-md px-4 py-3 pr-10 text-sm text-foreground appearance-none outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all duration-200 ${
               error ? "border-red-500 focus:border-red-500" : ""
             } ${className}`}
@@ -44,7 +50,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             </svg>
           </div>
         </div>
-        {error && <span className="text-xs text-red-500 font-medium">{error}</span>}
+        {error && <span id={`${selectId}-error`} className="text-xs text-red-500 font-medium">{error}</span>}
       </div>
     );
   }

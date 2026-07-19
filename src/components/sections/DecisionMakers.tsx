@@ -9,7 +9,7 @@ export const DecisionMakers: React.FC = () => {
   const categories = [
     {
       title: "Educational Institutions",
-      desc: "Classrooms, libraries, laboratories, staff rooms, and administration spaces.",
+      desc: "classroom seating, lab seating, lockers.",
       icon: GraduationCap,
     },
     {
@@ -19,12 +19,12 @@ export const DecisionMakers: React.FC = () => {
     },
     {
       title: "Hospitals & Clinics",
-      desc: "Waiting seating, staff areas, storage, and support furniture for healthcare spaces.",
+      desc: "Waiting seating, staff areas.",
       icon: Hospital,
     },
     {
       title: "Banks & Finance",
-      desc: "Customer seating, office tables, storage, and branch furniture requirements.",
+      desc: "Customer seating, storage.",
       icon: Landmark,
     },
     {
@@ -50,7 +50,7 @@ export const DecisionMakers: React.FC = () => {
   } satisfies Variants;
 
   return (
-    <section id="about" className="py-20 md:py-28 bg-[#F7F3ED]/40 border-y border-brand-border">
+    <section id="audiences" className="py-20 md:py-28 bg-[#F7F3ED]/40 border-y border-brand-border">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Title */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -71,38 +71,15 @@ export const DecisionMakers: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="flex flex-wrap justify-center gap-6"
         >
-          {categories.slice(0, 3).map((item, idx) => (
-            <motion.div key={idx} variants={itemVariants}>
-              <Card className="h-full flex flex-col items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-brand-bg-warm flex items-center justify-center text-brand-accent border border-brand-border">
-                  <item.icon size={20} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h3 className="font-display font-semibold text-base text-brand-dark-bg">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-brand-secondary leading-relaxed mt-2 font-light">
-                    {item.desc}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-
-          {/* Bottom row centered for 2 items on desktop */}
-          {categories.slice(3).map((item, idx) => (
+          {categories.map((item, idx) => (
             <motion.div
-              key={idx + 3}
+              key={idx}
               variants={itemVariants}
-              className="md:col-span-1 lg:col-span-1 lg:first-of-type:lg:col-start-1 lg:first-of-type:lg:translate-x-[50%] lg:last-of-type:lg:translate-x-[50%] md:odd:col-start-1 md:odd:translate-x-[50%] md:even:col-start-2 md:even:-translate-x-[50%] lg:odd:translate-x-0 lg:even:translate-x-0"
-              // Note: the transform translates standard grids elegantly on desktop to look customized.
-              // Wait, to keep responsiveness clean across sizes, we can just use normal columns with an offset or let Tailwind center them!
-              // For simplicity and perfect responsive layout, we can center them with margins or just leave them standard.
-              // Standard grid-cols-3 works beautifully as the fourth and fifth fall in naturally.
+              className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] flex"
             >
-              <Card className="h-full flex flex-col items-start gap-4 lg:mx-3">
+              <Card className="h-full w-full flex flex-col items-start gap-4">
                 <div className="w-10 h-10 rounded-lg bg-brand-bg-warm flex items-center justify-center text-brand-accent border border-brand-border">
                   <item.icon size={20} strokeWidth={1.5} />
                 </div>

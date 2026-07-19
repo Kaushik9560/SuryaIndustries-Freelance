@@ -24,7 +24,7 @@ export const WarrantyCallout: React.FC = () => {
               Long-term assistance after installation
             </h2>
             <p className="text-sm md:text-base text-neutral-400 mt-4 leading-relaxed font-light">
-              Surya Industry emphasizes prompt assistance and dependable support from the date of installation, helping institutions keep furniture usable and functional over time.
+              Surya Industries emphasizes dedicated customer service and dependable support from the date of installation, helping institutions keep furniture usable and functional over time.
             </p>
           </div>
 
@@ -35,9 +35,9 @@ export const WarrantyCallout: React.FC = () => {
                 <Clock size={16} />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Prompt coordination</h4>
+                <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Dedicated Service Desk</h4>
                 <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
-                  Dedicated service desk coordinates physical inspection and quick repair for schools, hospitals, and offices.
+                  Our service desk coordinates physical inspection and quick repair for schools, hospitals, and offices.
                 </p>
               </div>
             </div>

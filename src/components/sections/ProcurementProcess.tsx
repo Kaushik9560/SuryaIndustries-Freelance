@@ -2,38 +2,49 @@
 
 import React from "react";
 import { motion, type Variants } from "framer-motion";
+import { Users, ClipboardList, Armchair, FileText, Settings, Truck, Wrench, Headphones } from "lucide-react";
 
 export const ProcurementProcess: React.FC = () => {
   const steps = [
     {
-      num: "01",
-      title: "Requirement Discussion",
-      desc: "We analyze room dimensions, usage patterns, student/staff counts, and budget parameters.",
+      title: "Consultation",
+      desc: "We understand your needs and space.",
+      icon: Users,
     },
     {
-      num: "02",
-      title: "Product Recommendation",
-      desc: "We recommend optimized seating heights, modular configurations, and storage locking types.",
+      title: "Requirement Analysis",
+      desc: "We analyze and suggest the best solutions.",
+      icon: ClipboardList,
     },
     {
-      num: "03",
-      title: "Formal Quotation",
-      desc: "We provide structured commercial proposals with customized supply schedules and warranty breakdowns.",
+      title: "Product Selection",
+      desc: "Choose from a wide range of quality products.",
+      icon: Armchair,
     },
     {
-      num: "04",
-      title: "Order Confirmation",
-      desc: "Procurement orders are logged and technical drawings are aligned before manufacturing batching.",
+      title: "Quotation",
+      desc: "Transparent pricing with best value.",
+      icon: FileText,
     },
     {
-      num: "05",
-      title: "Delivery & Installation",
-      desc: "Our logistical teams coordinate delivery and complete assembly at the institution site.",
+      title: "Manufacturing / Procurement",
+      desc: "Quality-driven process with timely updates.",
+      icon: Settings,
     },
     {
-      num: "06",
+      title: "Delivery",
+      desc: "Safe and on-time delivery.",
+      icon: Truck,
+    },
+    {
+      title: "Installation",
+      desc: "Professional installation by experienced team.",
+      icon: Wrench,
+    },
+    {
       title: "After-Sales Support",
-      desc: "Two-year warranty triggers instantly, with dedicated contact points for maintenance issues.",
+      desc: "We're here even after the installation.",
+      icon: Headphones,
     },
   ];
 
@@ -75,7 +86,7 @@ export const ProcurementProcess: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 relative"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 relative"
         >
           {steps.map((step, idx) => (
             <motion.div
@@ -84,14 +95,14 @@ export const ProcurementProcess: React.FC = () => {
               className="flex flex-col gap-4 relative group"
             >
               {/* Connector line for large screens (horizontal) */}
-              {idx % 3 !== 2 && idx < 5 && (
+              {idx % 4 !== 3 && idx < 7 && (
                 <div className="hidden lg:block absolute top-5 left-[calc(100%-40px)] w-[calc(100%-80px)] h-[1px] bg-neutral-800 z-0 transition-colors group-hover:bg-brand-accent/50" />
               )}
               
               {/* Stepper Node */}
               <div className="flex items-center gap-4 z-10">
-                <div className="w-10 h-10 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center text-xs font-bold font-sans text-brand-accent group-hover:border-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
-                  {step.num}
+                <div className="w-10 h-10 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center text-brand-accent group-hover:border-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
+                  <step.icon size={18} strokeWidth={1.5} className="transition-colors group-hover:text-white" />
                 </div>
                 <h3 className="font-display font-semibold text-base text-white tracking-wide">
                   {step.title}

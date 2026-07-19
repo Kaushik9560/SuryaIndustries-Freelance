@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sliders, CheckCircle2, Truck, ShieldCheck, HeartHandshake, MapPin } from "lucide-react";
+import { Sliders, CheckCircle2, Truck, ShieldCheck } from "lucide-react";
 import { Card } from "../ui/Card";
 import { motion, type Variants } from "framer-motion";
 
@@ -26,16 +26,6 @@ export const PartnerSection: React.FC = () => {
       title: "Two-Year Service Warranty",
       desc: "Service commitment from the date of installation for long-term confidence.",
       icon: ShieldCheck,
-    },
-    {
-      title: "Dedicated Customer Support",
-      desc: "Responsive assistance for quotations, product guidance, installation, and service needs.",
-      icon: HeartHandshake,
-    },
-    {
-      title: "Service Across Karnataka",
-      desc: "Serving institutional buyers across the state with dependable coordination.",
-      icon: MapPin,
     },
   ];
 
@@ -67,7 +57,7 @@ export const PartnerSection: React.FC = () => {
             A dependable partner from selection to support
           </h2>
           <p className="text-sm md:text-base text-brand-secondary leading-relaxed font-light mt-4">
-            Surya Industry focuses on getting furniture requirements understood, supplied, installed, and supported with professional follow-through.
+            Surya Industries focuses on getting furniture requirements understood, supplied, installed, and supported with professional follow-through.
           </p>
         </div>
 
@@ -77,7 +67,7 @@ export const PartnerSection: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         >
           {partners.map((partner, idx) => (
             <motion.div key={idx} variants={itemVariants}>

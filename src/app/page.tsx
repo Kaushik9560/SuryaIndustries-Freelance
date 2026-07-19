@@ -5,18 +5,19 @@ import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { DecisionMakers } from "@/components/sections/DecisionMakers";
 import { ProductCategories } from "@/components/sections/ProductCategories";
-import { PartnerSection } from "@/components/sections/PartnerSection";
+import { ManufacturingExcellence } from "@/components/sections/ManufacturingExcellence";
 import { ProcurementProcess } from "@/components/sections/ProcurementProcess";
 import { WarrantyCallout } from "@/components/sections/WarrantyCallout";
-import { GallerySection } from "@/components/sections/GallerySection";
 import { QuoteCTA } from "@/components/sections/QuoteCTA";
 import { Footer } from "@/components/sections/Footer";
 import { QuoteModal } from "@/components/QuoteModal";
+import { ProductDetailModal } from "@/components/ProductDetailModal";
+import { NotifyModal } from "@/components/NotifyModal";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [preselectedCategory, setPreselectedCategory] = useState("");
-  const [showClearanceOnly, setShowClearanceOnly] = useState(false);
+  const [quoteSession, setQuoteSession] = useState(0);
 
   const handleOpenModal = (category?: string) => {
     if (category && typeof category === "string") {
@@ -24,6 +25,7 @@ export default function Home() {
     } else {
       setPreselectedCategory("");
     }
+    setQuoteSession((current) => current + 1);
     setModalOpen(true);
   };
 
@@ -32,21 +34,11 @@ export default function Home() {
     setPreselectedCategory("");
   };
 
-  const handleSelectClearance = () => {
-    setShowClearanceOnly(true);
-    // Smooth scroll to the products section
-    const target = document.querySelector("#products");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <>
       {/* Premium Sticky Navigation */}
       <Header
         onRequestQuote={() => handleOpenModal()}
-        onSelectSale={handleSelectClearance}
       />
 
       {/* Main Sections */}
@@ -60,21 +52,16 @@ export default function Home() {
         {/* Interactive Product Category Showcase */}
         <ProductCategories
           onRequestQuote={handleOpenModal}
-          showClearanceOnly={showClearanceOnly}
-          setShowClearanceOnly={setShowClearanceOnly}
         />
 
-        {/* Partner capabilities and core strengths */}
-        <PartnerSection />
+        {/* Manufacturing Excellence & Quality Assurance */}
+        <ManufacturingExcellence onRequestQuote={() => handleOpenModal()} />
 
         {/* Clear process timelines */}
         <ProcurementProcess />
 
         {/* Warranty callout block */}
         <WarrantyCallout />
-
-        {/* Installation gallery filterable by space */}
-        <GallerySection />
 
         {/* Direct quotation call-to-action */}
         <QuoteCTA onRequestQuote={() => handleOpenModal()} />
@@ -85,10 +72,17 @@ export default function Home() {
 
       {/* Interactive Quotation Form Modal */}
       <QuoteModal
+        key={quoteSession}
         isOpen={modalOpen}
         onClose={handleCloseModal}
         preselectedCategory={preselectedCategory}
       />
+
+      {/* Product Detail & Photo Gallery Modal */}
+      <ProductDetailModal onRequestQuote={handleOpenModal} />
+
+      {/* Stock Restock Interest Notification Modal */}
+      <NotifyModal />
     </>
   );
 }

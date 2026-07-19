@@ -16,43 +16,43 @@ const galleryItems = [
   },
   {
     id: 2,
-    title: "Executive Workstation Space",
+    title: "Executive Workstation Setup",
     space: "offices",
     location: "Hubballi, Karnataka",
-    image: "/office_chair.png",
-    dimensions: "Ergonomic executive chairs & modular desks",
+    image: "/pics/ergonomic_mesh_headrest_side.jpeg",
+    dimensions: "Ergonomic high-back mesh chair & executive desk",
   },
   {
     id: 3,
-    title: "Outpatient Waiting Lounge",
-    space: "hospitals",
+    title: "Boss Leather Executive Suite",
+    space: "offices",
     location: "Mangaluru, Karnataka",
+    image: "/pics/executive_boss_leather_black.jpeg",
+    dimensions: "High-grade leather boss chair with multi-tilt",
+  },
+  {
+    id: 4,
+    title: "Outpatient Waiting Area",
+    space: "hospitals",
+    location: "Mysuru, Karnataka",
     image: "/waiting_area.png",
     dimensions: "Heavy-duty anti-bacterial seating rows",
   },
   {
-    id: 4,
-    title: "Public Banking Counter Seating",
-    space: "banks",
-    location: "Mysuru, Karnataka",
-    image: "/waiting_area.png",
-    dimensions: "Ergonomic customer chairs & counter stools",
-  },
-  {
     id: 5,
-    title: "Student Corridor Locker Grid",
+    title: "In-Wardrobe Digital Security Safe",
     space: "storage",
     location: "Belagavi, Karnataka",
-    image: "/storage_lockers.png",
-    dimensions: "Secured heavy-gauge steel storage vaults",
+    image: "/pics/digital_safe_wardrobe_setup.jpeg",
+    dimensions: "Concealed heavy-gauge electronic locker",
   },
   {
     id: 6,
-    title: "Administration Cupboard Units",
+    title: "Rhino Advanced Security Safe",
     space: "storage",
     location: "Tumakuru, Karnataka",
-    image: "/storage_lockers.png",
-    dimensions: "Lockable archival storage solutions",
+    image: "/pics/digital_safe_rhino_yellow.jpeg",
+    dimensions: "Dual lock mechanism vault with digital keypad",
   },
 ];
 
@@ -86,7 +86,7 @@ export const GallerySection: React.FC = () => {
             Installation gallery by space type
           </h2>
           <p className="text-sm md:text-base text-brand-secondary leading-relaxed font-light mt-4">
-            A refined preview of the spaces Surya Industry supports — from educational rooms to storage-led facilities.
+            A refined preview of the spaces Surya Industries supports — from educational rooms to storage-led facilities.
           </p>
         </div>
 
@@ -130,7 +130,7 @@ export const GallerySection: React.FC = () => {
                     alt={item.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-w-768px) 100vw, 30vw"
+                    sizes="(max-width: 768px) 100vw, 30vw"
                   />
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-neutral-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
