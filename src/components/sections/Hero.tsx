@@ -92,49 +92,50 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
   const slide = heroSlides[currentSlide];
 
   return (
-    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-background">
+    <section id="hero" className="relative pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20 lg:pt-36 xl:pt-40 xl:pb-24 overflow-hidden bg-background">
       {/* Background warm aesthetic circles */}
       <div className="absolute top-0 right-0 w-[40%] h-[50%] bg-[#F7F3ED] rounded-full blur-[120px] opacity-40 -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 xl:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 lg:gap-10 xl:gap-12 items-center">
 
           {/* Left Column: Text Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="lg:col-span-7 flex flex-col items-start text-left"
+            className="md:col-span-6 flex flex-col items-start text-left"
           >
             {/* Top Badge */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-bg-warm border border-brand-border text-brand-dark-bg text-[10px] font-semibold uppercase tracking-wider mb-6"
+              className="inline-flex max-w-full items-center gap-2 rounded-full border border-brand-border bg-brand-bg-warm px-3 py-1.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-brand-dark-bg mb-4 md:mb-5"
             >
-              <Shield size={12} className="text-brand-accent" />
-              <span>Trusted institutional furniture partner across Karnataka</span>
+              <Shield size={12} className="shrink-0 text-brand-accent" />
+              <span className="sm:hidden">Institutional furniture across Karnataka</span>
+              <span className="hidden sm:inline">Trusted institutional furniture partner across Karnataka</span>
             </motion.div>
 
             {/* Main Heading */}
             <motion.h1
               variants={itemVariants}
-              className="font-display font-bold text-4xl md:text-5xl lg:text-[56px] text-brand-dark-bg leading-[1.1] tracking-tight max-w-xl"
+              className="max-w-2xl font-display text-[34px] sm:text-[38px] md:text-[40px] lg:text-5xl xl:text-[54px] font-bold leading-[1.06] tracking-tight text-brand-dark-bg"
             >
-              Complete seating solutions for Modern Institutions
+              Complete seating solutions for modern institutions
             </motion.h1>
 
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="mt-6 text-base md:text-lg text-brand-secondary leading-relaxed max-w-lg font-sans font-light"
+              className="mt-4 max-w-xl font-sans text-sm sm:text-base lg:text-lg font-light leading-relaxed text-brand-secondary"
             >
-              At Surya Industries, we specialize in seating solutions that combine comfort, durability, and functionality—from ergonomic office chairs and waiting area seating to student desks, complemented by high-quality steel lockers and security safes.
+              Factory-direct seating, student desks, steel storage and security safes built for schools, offices, hospitals and institutions across Karnataka.
             </motion.p>
 
             {/* CTAs */}
             <motion.div
               variants={itemVariants}
-              className="mt-8 flex flex-wrap gap-4 items-center"
+              className="mt-6 flex flex-wrap gap-x-5 gap-y-3 items-center"
             >
               <Button variant="primary" size="md" onClick={onRequestQuote}>
                 Request a Quote
@@ -148,28 +149,6 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
               </a>
             </motion.div>
 
-            {/* Quality Checklist */}
-            <motion.div
-              variants={itemVariants}
-              className="mt-12 pt-8 border-t border-brand-border grid grid-cols-2 sm:grid-cols-4 gap-6 text-brand-secondary"
-            >
-              <div className="flex flex-col gap-2">
-                <Award size={18} className="text-brand-accent" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">30+ Yrs Experience</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Package size={18} className="text-brand-accent" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">Bulk Supply</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Shield size={18} className="text-brand-accent" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">2-Year Warranty</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Truck size={18} className="text-brand-accent" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">Delivery & Installation</span>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Right Column: Hero Image Transition Slider */}
@@ -177,12 +156,12 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={heroImageTransition}
-            className="lg:col-span-5 relative"
+            className="md:col-span-6 relative w-full md:pl-2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             {/* Image Slider Wrap */}
-            <div className="relative rounded-custom-xl overflow-hidden border border-brand-border bg-brand-bg-warm aspect-[4/3] sm:aspect-square shadow-soft-lg group">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-custom-xl border border-brand-border bg-brand-bg-warm shadow-soft-lg group">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={slide.id}
@@ -199,7 +178,7 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
                     priority
                     loading="eager"
                     className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) 50vw, 46vw"
                   />
                   {/* Subtle vignette gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
@@ -210,7 +189,7 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
               <button
                 onClick={prevSlide}
                 aria-label="Previous slide"
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-brand-dark-bg backdrop-blur shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
+                className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white md:h-9 md:w-9 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
               >
                 <ChevronLeft size={20} />
               </button>
@@ -218,13 +197,13 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
               <button
                 onClick={nextSlide}
                 aria-label="Next slide"
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-brand-dark-bg backdrop-blur shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer z-20"
+                className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white md:h-9 md:w-9 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
               >
                 <ChevronRight size={20} />
               </button>
 
               {/* Slide Counter & Indicators */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-black/40 backdrop-blur px-3 py-1.5 rounded-full border border-white/20">
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-black/40 backdrop-blur px-3 py-1.5 rounded-full border border-white/20">
                 {heroSlides.map((_, idx) => (
                   <button
                     key={idx}
@@ -242,7 +221,7 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="absolute left-6 bottom-6 bg-white/95 backdrop-blur border border-brand-border rounded-custom-md p-4 shadow-soft-md max-w-[240px] flex flex-col gap-1.5 z-20"
+              className="absolute bottom-4 left-4 z-20 flex max-w-[230px] flex-col gap-1.5 rounded-custom-md border border-brand-border bg-white/95 p-3 shadow-soft-md backdrop-blur sm:bottom-5 sm:left-5 sm:max-w-[240px] sm:p-4"
             >
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -256,8 +235,32 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
               </p>
             </motion.div>
           </motion.div>
-
         </div>
+
+        {/* Keep the product visual above these trust signals on small screens. */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
+          className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-brand-border pt-6 text-brand-secondary md:mt-10 md:grid-cols-4 md:pt-8"
+        >
+          <div className="flex flex-col gap-2">
+            <Award size={18} className="text-brand-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">30+ Yrs Experience</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Package size={18} className="text-brand-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">Bulk Supply</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Shield size={18} className="text-brand-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">2-Year Warranty</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Truck size={18} className="text-brand-accent" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-dark-bg">Delivery & Installation</span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -35,22 +35,22 @@ export const Header: React.FC<HeaderProps> = ({ onRequestQuote }) => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 font-sans ${
-        scrolled ? "bg-background/95 backdrop-blur-md border-b border-brand-border py-4" : "bg-transparent py-6"
+        scrolled ? "bg-background/95 backdrop-blur-md border-b border-brand-border py-3 lg:py-4" : "bg-transparent py-4 lg:py-6"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 xl:px-12 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/#hero" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center text-white font-serif font-bold text-lg shadow-soft-sm transition-transform duration-300 group-hover:scale-105">
+        <Link href="/#hero" onClick={() => setIsOpen(false)} className="flex min-w-0 items-center gap-2 sm:gap-3 group">
+          <div className="w-8 h-8 shrink-0 rounded-lg bg-brand-accent flex items-center justify-center text-white font-serif font-bold text-lg shadow-soft-sm transition-transform duration-300 group-hover:scale-105">
             S
           </div>
-          <span className="font-display font-semibold text-lg tracking-wide text-brand-dark-bg">
+          <span className="whitespace-nowrap font-display font-semibold text-base sm:text-lg tracking-wide text-brand-dark-bg">
             Surya Industries
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden xl:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ onRequestQuote }) => {
         </nav>
 
         {/* Desktop CTA & Wishlist */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden xl:flex items-center gap-4">
           <Link
             href="/#products"
             className="relative p-2.5 rounded-full border border-brand-border bg-white/80 backdrop-blur text-brand-secondary hover:text-brand-dark-bg transition-colors"
@@ -91,16 +91,43 @@ export const Header: React.FC<HeaderProps> = ({ onRequestQuote }) => {
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden p-2 text-brand-dark-bg hover:text-brand-accent transition-colors cursor-pointer"
-          aria-label="Toggle menu"
-          aria-expanded={isOpen}
-          aria-controls="mobile-navigation"
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Compact actions stay available on phones, tablets, and narrow laptops. */}
+        <div className="xl:hidden flex shrink-0 items-center gap-1 sm:gap-2">
+          <Link
+            href="/#products"
+            onClick={() => setIsOpen(false)}
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-brand-border bg-white/80 text-brand-secondary transition-colors hover:text-brand-dark-bg"
+            aria-label={`Wishlist${wishlist.length > 0 ? `, ${wishlist.length} saved items` : ""}`}
+            title="Wishlist"
+          >
+            <Heart size={16} className={wishlist.length > 0 ? "fill-current text-rose-600" : ""} />
+            {wishlist.length > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-600 px-1 text-[9px] font-bold text-white shadow">
+                {wishlist.length > 9 ? "9+" : wishlist.length}
+              </span>
+            )}
+          </Link>
+
+          <Link
+            href="/admin"
+            onClick={() => setIsOpen(false)}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-border bg-white/80 text-brand-secondary transition-colors hover:text-brand-dark-bg"
+            aria-label="Owner admin portal"
+            title="Admin"
+          >
+            <Lock size={15} className="text-brand-accent" />
+          </Link>
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-brand-dark-bg transition-colors hover:bg-brand-bg-warm hover:text-brand-accent cursor-pointer"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav Drawer */}
@@ -112,19 +139,41 @@ export const Header: React.FC<HeaderProps> = ({ onRequestQuote }) => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background border-b border-brand-border overflow-hidden"
+            className="xl:hidden bg-background border-b border-brand-border shadow-soft-md overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col gap-6">
-              {navLinks.map((link) => (
+            <div className="max-w-7xl max-h-[calc(100dvh-68px)] mx-auto overflow-y-auto px-4 sm:px-6 py-4 sm:py-5">
+              <nav className="grid gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-semibold uppercase tracking-widest text-brand-secondary transition-colors hover:bg-brand-bg-warm hover:text-brand-dark-bg"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mt-3 grid grid-cols-2 gap-3 border-t border-brand-border pt-4">
                 <Link
-                  key={link.name}
-                  href={link.href}
+                  href="/#products"
                   onClick={() => setIsOpen(false)}
-                  className="text-left text-sm font-semibold uppercase tracking-widest py-1 border-b border-transparent hover:border-brand-accent w-full cursor-pointer text-brand-secondary hover:text-brand-dark-bg"
+                  className="flex items-center justify-center gap-2 rounded-full border border-brand-border bg-white px-4 py-2.5 text-xs font-semibold text-brand-dark-bg"
                 >
-                  {link.name}
+                  <Heart size={15} className={wishlist.length > 0 ? "fill-current text-rose-600" : "text-brand-accent"} />
+                  Wishlist{wishlist.length > 0 ? ` (${wishlist.length})` : ""}
                 </Link>
-              ))}
+                <Link
+                  href="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-full border border-brand-border bg-white px-4 py-2.5 text-xs font-semibold text-brand-dark-bg"
+                >
+                  <Lock size={14} className="text-brand-accent" />
+                  Admin Panel
+                </Link>
+              </div>
+
               <Button
                 variant="primary"
                 size="md"
