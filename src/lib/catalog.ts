@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { INITIAL_PRODUCTS } from "@/data/products";
 import { getSupabasePublicConfig } from "@/lib/env";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
@@ -121,6 +122,28 @@ export async function getPublicProducts(): Promise<ProductItem[]> {
 
   return data.map(mapProductRow);
 }
+
+export const getPublicProduct = cache(async (id: string): Promise<ProductItem | null> => {
+  const fallback = INITIAL_PRODUCTS.find(
+    (product) => product.id === id && product.isVisible !== false
+  );
+  if (!getSupabasePublicConfig()) return fallback ?? null;
+
+  const supabase = createPublicSupabaseClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .eq("is_visible", true)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Unable to load the public product", error.message);
+    return fallback ?? null;
+  }
+
+  return data ? mapProductRow(data) : null;
+});
 
 export async function getAdminDashboardData() {
   const supabase = createAdminSupabaseClient();

@@ -5,6 +5,7 @@ Production-oriented catalog and institutional enquiry website built with Next.js
 ## Architecture
 
 - Public catalog pages are server-rendered from Supabase, with the canonical seed catalog as a read-only fallback when no backend is configured locally.
+- Every visible catalog item has a crawlable product URL with unique metadata, Product schema, and automatic sitemap inclusion while retaining the quick-view modal UX.
 - Wishlist and modal UI state remain browser-local through `ProductProvider`.
 - Quote and restock requests are validated, rate-limited, deduplicated, and persisted by server Route Handlers.
 - The owner dashboard uses Supabase Auth plus an explicit `admin_users` membership check on every server mutation.

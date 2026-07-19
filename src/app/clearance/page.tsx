@@ -111,9 +111,13 @@ export default function ClearancePage() {
                         <span className="text-[9px] text-brand-accent font-semibold uppercase tracking-wider block mb-1">
                           {product.categoryName}
                         </span>
-                        <h3 className="font-display font-semibold text-lg text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200">
+                        <Link
+                          href={`/products/${encodeURIComponent(product.id)}`}
+                          onClick={(event) => event.stopPropagation()}
+                          className="font-display font-semibold text-lg text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200"
+                        >
                           {product.title}
-                        </h3>
+                        </Link>
                       </div>
                       <span className="text-[10px] text-brand-accent font-bold tracking-wide border border-brand-accent/30 rounded px-2.5 py-1 bg-brand-accent/5 whitespace-nowrap">
                         {product.clearanceNote || product.priceNote}

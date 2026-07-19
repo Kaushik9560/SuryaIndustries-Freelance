@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Search, HelpCircle, Heart, Eye } from "lucide-react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
@@ -147,9 +148,13 @@ export const ProductCategories: React.FC<ProductCategoriesProps> = ({
                 {/* Card Details */}
                 <div className="flex-1 flex flex-col pt-5">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-display font-semibold text-lg text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200">
+                    <Link
+                      href={`/products/${encodeURIComponent(cat.id)}`}
+                      onClick={(event) => event.stopPropagation()}
+                      className="font-display font-semibold text-lg text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200"
+                    >
                       {cat.title}
-                    </h3>
+                    </Link>
                   </div>
                   <p className="text-sm text-brand-secondary leading-relaxed font-light mt-3 flex-1 line-clamp-2">
                     {cat.desc}
@@ -157,10 +162,14 @@ export const ProductCategories: React.FC<ProductCategoriesProps> = ({
 
                   {/* Action Bar */}
                   <div className="mt-6 pt-4 border-t border-brand-border/40 flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-brand-accent group-hover:text-[#b5883d] transition-colors duration-200 inline-flex items-center gap-1.5">
+                    <Link
+                      href={`/products/${encodeURIComponent(cat.id)}`}
+                      onClick={(event) => event.stopPropagation()}
+                      className="text-xs font-semibold uppercase tracking-wider text-brand-accent group-hover:text-[#b5883d] transition-colors duration-200 inline-flex items-center gap-1.5"
+                    >
                       <Eye size={14} />
                       View Details & Specs
-                    </span>
+                    </Link>
 
                     <button
                       onClick={(e) => {
@@ -251,19 +260,27 @@ export const ProductCategories: React.FC<ProductCategoriesProps> = ({
 
                     {/* Card Details */}
                     <div className="flex-1 flex flex-col pt-4">
-                      <h4 className="font-display font-semibold text-sm text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200">
+                      <Link
+                        href={`/products/${encodeURIComponent(item.id)}`}
+                        onClick={(event) => event.stopPropagation()}
+                        className="font-display font-semibold text-sm text-brand-dark-bg group-hover:text-brand-accent transition-colors duration-200"
+                      >
                         {item.title}
-                      </h4>
+                      </Link>
                       <p className="text-xs text-brand-secondary leading-relaxed font-light mt-2 flex-1 line-clamp-2">
                         {item.desc}
                       </p>
 
                       {/* Action Bar */}
                       <div className="mt-4 pt-3 border-t border-brand-border/40 flex items-center justify-between">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-accent inline-flex items-center gap-1">
+                        <Link
+                          href={`/products/${encodeURIComponent(item.id)}`}
+                          onClick={(event) => event.stopPropagation()}
+                          className="text-[10px] font-semibold uppercase tracking-wider text-brand-accent inline-flex items-center gap-1"
+                        >
                           <Eye size={12} />
                           Details
-                        </span>
+                        </Link>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

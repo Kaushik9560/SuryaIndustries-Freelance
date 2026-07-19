@@ -61,7 +61,18 @@ After deployment, verify:
 6. A JPG, PNG, or WebP selected in the product editor uploads successfully and remains visible after refresh.
 7. Response headers include CSP, HSTS, frame protection, and `no-store` on `/admin`.
 
-## 6. Operations
+## 6. Search Visibility
+
+1. Connect the final custom domain in Vercel before promoting URLs publicly, then set `NEXT_PUBLIC_SITE_URL` to that exact HTTPS origin and redeploy.
+2. Add the domain property in Google Search Console. If using HTML tag verification, set only the token value as `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and redeploy.
+3. Submit `https://your-domain.example/sitemap.xml` in Search Console. Use URL Inspection to request indexing for the homepage and the most important `/products/...` pages.
+4. Validate a deployed product page with Google's Rich Results Test and monitor indexing, Core Web Vitals, and enhancement reports in Search Console.
+5. Create or claim a Google Business Profile only with the real business name, address or service area, phone, hours, and customer-facing photos. Keep those details consistent with the website.
+6. Build authority gradually through genuine customer reviews, project case studies, supplier or institutional links, and useful original content. Do not buy links or create fake reviews.
+
+Search rankings cannot be guaranteed. Local visibility depends mainly on relevance, distance, and prominence in addition to the technical site foundation.
+
+## 7. Operations
 
 - Enable Supabase backups and review Auth/database logs.
 - Configure Vercel deployment alerts and an external uptime monitor.

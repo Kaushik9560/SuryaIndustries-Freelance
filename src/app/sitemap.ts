@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
+import { getPublicProducts } from "@/lib/catalog";
+import { getSiteUrl } from "@/lib/seo";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
-    /\/+$/,
-    ""
-  );
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = getSiteUrl();
+  const products = await getPublicProducts();
   const now = new Date();
 
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
     {
       url: `${baseUrl}/clearance`,
@@ -28,4 +28,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.2,
     },
   ];
+
+  const productPages: MetadataRoute.Sitemap = products.map((product) => ({
+    url: `${baseUrl}/products/${encodeURIComponent(product.id)}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: product.isBestseller ? 0.9 : 0.8,
+    images: Array.from(new Set([product.image, ...product.gallery])).map((image) =>
+      new URL(image, `${baseUrl}/`).toString()
+    ),
+  }));
+
+  return [...staticPages, ...productPages];
 }
