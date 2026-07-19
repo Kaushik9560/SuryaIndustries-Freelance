@@ -161,79 +161,81 @@ export const Hero: React.FC<HeroProps> = ({ onRequestQuote }) => {
             onMouseLeave={() => setIsHovered(false)}
           >
             {/* Image Slider Wrap */}
-            <div className="relative aspect-[4/3] overflow-hidden rounded-custom-xl border border-brand-border bg-brand-bg-warm shadow-soft-lg group">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={slide.id}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute inset-0 w-full h-full"
+            <div className="relative overflow-hidden rounded-custom-xl border border-brand-border bg-brand-bg-warm shadow-soft-lg group">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={slide.id}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      priority
+                      loading="eager"
+                      className="object-cover"
+                      sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) 50vw, 46vw"
+                    />
+                    {/* Subtle vignette gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Arrows */}
+                <button
+                  onClick={prevSlide}
+                  aria-label="Previous slide"
+                  className="absolute left-2 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white xl:left-3 xl:h-9 xl:w-9 xl:opacity-0 xl:group-hover:opacity-100 cursor-pointer"
                 >
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
-                    fill
-                    priority
-                    loading="eager"
-                    className="object-cover"
-                    sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) 50vw, 46vw"
-                  />
-                  {/* Subtle vignette gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
-                </motion.div>
-              </AnimatePresence>
+                  <ChevronLeft size={18} />
+                </button>
 
-              {/* Navigation Arrows */}
-              <button
-                onClick={prevSlide}
-                aria-label="Previous slide"
-                className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white md:h-9 md:w-9 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
-              >
-                <ChevronLeft size={20} />
-              </button>
+                <button
+                  onClick={nextSlide}
+                  aria-label="Next slide"
+                  className="absolute right-2 top-1/2 z-20 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white xl:right-3 xl:h-9 xl:w-9 xl:opacity-0 xl:group-hover:opacity-100 cursor-pointer"
+                >
+                  <ChevronRight size={18} />
+                </button>
 
-              <button
-                onClick={nextSlide}
-                aria-label="Next slide"
-                className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-brand-dark-bg opacity-100 shadow-md backdrop-blur transition-all hover:bg-white md:h-9 md:w-9 md:opacity-0 md:group-hover:opacity-100 cursor-pointer"
-              >
-                <ChevronRight size={20} />
-              </button>
-
-              {/* Slide Counter & Indicators */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-black/40 backdrop-blur px-3 py-1.5 rounded-full border border-white/20">
-                {heroSlides.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentSlide(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                    className={`h-2 rounded-full transition-all cursor-pointer ${currentSlide === idx ? "w-6 bg-brand-accent" : "w-2 bg-white/50 hover:bg-white"
-                      }`}
-                  />
-                ))}
+                {/* Slide Counter & Indicators */}
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-2.5 py-1 backdrop-blur">
+                  {heroSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      aria-label={`Go to slide ${idx + 1}`}
+                      className={`h-1.5 rounded-full transition-all cursor-pointer ${currentSlide === idx ? "w-5 bg-brand-accent" : "w-1.5 bg-white/55 hover:bg-white"
+                        }`}
+                    />
+                  ))}
+                </div>
               </div>
+
+              {/* Details sit below the image on compact screens and float only on desktop. */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.45 }}
+                className="relative z-20 flex w-full flex-col gap-1.5 border-t border-brand-border bg-white px-4 py-3.5 xl:absolute xl:bottom-5 xl:left-5 xl:w-auto xl:max-w-[240px] xl:rounded-custom-md xl:border xl:bg-white/95 xl:p-4 xl:shadow-soft-md xl:backdrop-blur"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-brand-accent">
+                    {slide.badge}
+                  </span>
+                </div>
+                <h4 className="text-sm font-bold text-brand-dark-bg leading-tight xl:text-xs">{slide.title}</h4>
+                <p className="text-xs text-brand-secondary font-light leading-snug line-clamp-2 xl:text-[11px]">
+                  {slide.subtitle}
+                </p>
+              </motion.div>
             </div>
-
-            {/* Dynamic Floating Badge: Space & Product Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="absolute bottom-4 left-4 z-20 flex max-w-[230px] flex-col gap-1.5 rounded-custom-md border border-brand-border bg-white/95 p-3 shadow-soft-md backdrop-blur sm:bottom-5 sm:left-5 sm:max-w-[240px] sm:p-4"
-            >
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-accent">
-                  {slide.badge}
-                </span>
-              </div>
-              <h4 className="text-xs font-bold text-brand-dark-bg leading-tight">{slide.title}</h4>
-              <p className="text-[11px] text-brand-secondary font-light leading-snug line-clamp-2">
-                {slide.subtitle}
-              </p>
-            </motion.div>
           </motion.div>
         </div>
 
