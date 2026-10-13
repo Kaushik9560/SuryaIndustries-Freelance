@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "typecheck": "next typegen && tsc --noEmit --incremental false",
-    "check": "npm run lint && npm run typecheck && npm test"
+    "check": "npm run lint && npm test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
@@ -25,13 +24,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",
-    "typescript": "^5",
     "vitest": "^4.1.10"
   },
   "overrides": {

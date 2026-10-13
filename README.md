@@ -1,6 +1,6 @@
 # Surya Industries Website
 
-Production-oriented catalog and institutional enquiry website built with Next.js 16, React 19, Tailwind CSS 4, Supabase, and Resend.
+Production-oriented JavaScript catalog and institutional enquiry website built with Next.js 16, React 19, Tailwind CSS 4, Supabase, and Resend.
 
 ## Architecture
 
